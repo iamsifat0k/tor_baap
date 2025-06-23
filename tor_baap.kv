@@ -1,0 +1,63 @@
+# tor_baap.kv
+
+<MainScreen>:
+    name: 'main_screen'
+    background_color: [0.0, 0.0, 0.0, 1] # Pure black for ultimate sleekness and contrast
+
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(30) # More padding for more breathing room
+        spacing: dp(25) # More spacing for cleaner separation
+        halign: 'center'
+        valign: 'middle'
+
+        # App Title - Clean, metallic, without shadows
+        Label:
+            text: "[b]TOR BAAP[/b]"
+            markup: True
+            font_size: sp(58) # Slightly larger, more imposing
+            color: [0.8, 0.8, 0.8, 1] # Light grey for a clean, metallic look
+            size_hint_y: 0.2
+            halign: 'center'
+            valign: 'middle'
+
+        # Screen Time Label - Clear and concise
+        Label:
+            text: "TOTAL SCREEN TIME [b]TODAY[/b]:"
+            markup: True
+            font_size: sp(24) # A bit larger for emphasis
+            color: [0.6, 0.6, 0.6, 1] # Mid grey
+            size_hint_y: 0.1
+            halign: 'center'
+            valign: 'bottom'
+
+        # Screen Time Display - The core. Big, bold, glowing digital numbers.
+        Label:
+            id: screen_time_label
+            text: root.display_time
+            font_size: sp(85) # Even bigger, commands attention
+            bold: True
+            color: [0.0, 1.0, 1.0, 1] # Pure Cyan/Aqua for a digital, glowing effect
+            size_hint_y: 0.35
+            halign: 'center'
+            valign: 'middle'
+
+        # Spacer to maintain clean layout without a button
+        Widget:
+            size_hint_y: 0.25 # Fills out the bottom space elegantly
+
+        # Footer - Subtle and professional
+        Label:
+            text: "Powered by WittySheikh (Beta)"
+            font_size: sp(15) # Slightly larger, more legible
+            color: [0.4, 0.4, 0.4, 1] # Dark grey, blends in
+            size_hint_y: 0.05
+            halign: 'center'
+            valign: 'bottom'
