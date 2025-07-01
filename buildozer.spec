@@ -39,10 +39,9 @@ version = 0.1
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements (UPDATED FOR PYTHON 3.9 & PYJNIUS)
-requirements = python3==3.9,kivy,plyer,pyjnius==1.4.2
+requirements = python3==3.7.6,hostpython3==3.7.6,kivy,plyer,pyjnius==1.4.2,pillow
 
-# (str) Specify the Python version for python-for-android (CRITICAL FIX FOR JNIUS)
-p4a.python_version = 3.9
+
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -69,7 +68,7 @@ orientation = portrait
 # author = © Copyright Info
 
 # change the major version of python used by the app
-osx.python_version = 3
+osx.python_version = 3.7.6
 
 # Kivy version to use
 osx.kivy_version = 1.9.1
