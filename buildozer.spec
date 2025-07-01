@@ -39,9 +39,10 @@ version = 0.1
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements (UPDATED FOR PYTHON 3.9 & PYJNIUS)
-requirements = python3==3.7.6,hostpython3==3.7.6,kivy,plyer,pyjnius==1.4.2,pillow
+requirements = python3==3.9,kivy,plyer,pyjnius==1.4.2
 
-
+# (str) Specify the Python version for python-for-android (CRITICAL FIX FOR JNIUS)
+p4a.python_version = 3.9
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -68,7 +69,7 @@ orientation = portrait
 # author = © Copyright Info
 
 # change the major version of python used by the app
-osx.python_version = 3.7.6
+osx.python_version = 3
 
 # Kivy version to use
 osx.kivy_version = 1.9.1
@@ -117,7 +118,7 @@ android.minapi = 21 # Set to 21 for Android 5.0 Lollipop and above
 #android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
-#android.ndk_api = 21
+android.ndk_api = 21 # Removed comment from this line
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
@@ -241,9 +242,6 @@ android.accept_sdk_license = True # Uncommented for smoother automated builds
 
 # (str) XML file to include as an intent filters in <activity> tag
 #android.manifest.intent_filters =
-
-# (list) Copy these files to src/main/res/xml/ (used for example with intent-filters)
-#android.res_xml = PATH_TO_FILE,
 
 # (str) launchMode to set for the main activity
 #android.manifest.launch_mode = standard
