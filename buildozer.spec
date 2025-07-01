@@ -52,7 +52,7 @@ p4a.python_version = 3.9
 #presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application (UNCOMMENTED)
-icon.filename = %(source.dir)s/icon.png # Ensure you have an icon.png in your project root!
+icon.filename = %(source.dir)s/icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -141,7 +141,7 @@ android.ndk_api = 21
 # agreements. This is intended for automation only. If set to False,
 # the default, you will be shown the license when first running
 # buildozer.
-android.accept_sdk_license = True # Uncommented for smoother automated builds
+android.accept_sdk_license = True
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.kivy.android.PythonActivity
