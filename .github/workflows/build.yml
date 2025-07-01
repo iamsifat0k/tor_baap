@@ -24,7 +24,8 @@ jobs:
       # Cache Buildozer's global directory (e.g., downloaded SDK/NDK)
       # Key changes if buildozer.spec changes, ensuring fresh downloads when needed.
       - name: Cache Buildozer global directory
-        uses: actions/cache@v2
+        # Updated to actions/cache@v4 to fix deprecation warning
+        uses: actions/cache@v4
         with:
           path: ~/.buildozer
           key: buildozer-global-${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
@@ -35,7 +36,8 @@ jobs:
       # Cache the local .buildozer directory (project-specific build artifacts)
       # This helps speed up subsequent builds if the spec hasn't changed drastically.
       - name: Cache Buildozer local directory
-        uses: actions/cache@v2
+        # Updated to actions/cache@v4 to fix deprecation warning
+        uses: actions/cache@v4
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
@@ -70,7 +72,8 @@ jobs:
       # Upload the generated APK as a workflow artifact
       # The `buildozer-action` outputs the filename of the generated package.
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        # Updated to actions/upload-artifact@v3 to fix deprecation warning
+        uses: actions/upload-artifact@v3
         with:
           name: tor-baap-apk
           path: ${{ steps.buildozer_build_step.outputs.filename }} # Use the output filename from the build step
