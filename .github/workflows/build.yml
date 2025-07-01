@@ -1,3 +1,4 @@
+# .github/workflows/android_build.yml
 name: CI
 
 # Trigger the workflow on pushes to the main branch
@@ -72,8 +73,8 @@ jobs:
       # Upload the generated APK as a workflow artifact
       # The `buildozer-action` outputs the filename of the generated package.
       - name: Upload artifacts
-        # Updated to actions/upload-artifact@v3 to fix deprecation warning
-        uses: actions/upload-artifact@v3
+        # Updated to actions/upload-artifact@v4 to fix deprecation warning
+        uses: actions/upload-artifact@v4
         with:
           name: tor-baap-apk
           path: ${{ steps.buildozer_build_step.outputs.filename }} # Use the output filename from the build step
