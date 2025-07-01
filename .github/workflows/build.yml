@@ -1,42 +1,77 @@
+# .github/workflows/android_build.yml
 name: CI
+
+# Trigger the workflow on pushes to the main branch
 on:
   push:
     branches: [ main ]
 
 jobs:
   build:
+    # Use Ubuntu 20.04 LTS for stability with Buildozer
     runs-on: ubuntu-20.04
 
     steps:
-uses: actions/checkout@v2
+      # Checkout your repository code
+      - uses: actions/checkout@v2
 
-      used to cache dependencies with a timeout
-name: Get Date
+      # # used to cache dependencies with a timeout  <-- THIS LINE WAS THE PROBLEM
+      # Get current date for cache key (fixed deprecated syntax)
+      - name: Get Date
         id: get-date
-        run: |
-          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        run: echo "date=$(/bin/date -u "+%Y%m%d")" >> "$GITHUB_OUTPUT"
         shell: bash
 
-name: Cache Buildozer global directory
+      # Cache Buildozer's global directory (e.g., downloaded SDK/NDK)
+      # Key changes if buildozer.spec changes, ensuring fresh downloads when needed.
+      - name: Cache Buildozer global directory
         uses: actions/cache@v2
         with:
-          path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Replace with your path
+          path: ~/.buildozer
+          key: buildozer-global-${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            buildozer-global-${{ runner.os }}-${{ steps.get-date.outputs.date }}-
+            buildozer-global-${{ runner.os }}-
 
-uses: actions/cache@v2
+      # Cache the local .buildozer directory (project-specific build artifacts)
+      # This helps speed up subsequent builds if the spec hasn't changed drastically.
+      - name: Cache Buildozer local directory
+        uses: actions/cache@v2
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.get-date.outputs.date }}-
+            ${{ runner.os }}-
 
-name: Build with Buildozer
+      # Install essential system dependencies for Buildozer/Python-for-Android
+      # This is crucial for a robust build environment.
+      - name: Install Build Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses-dev libbz2-dev libssl-dev libffi-dev libsqlite3-dev liblzma-dev build-essential
+
+      # Install Buildozer and Kivy within a virtual environment
+      # This ensures isolated and consistent Python dependencies.
+      - name: Setup Python Environment
+        run: |
+          python3 -m venv venv_build
+          source venv_build/bin/activate
+          pip install buildozer kivy==2.3.1 plyer cython setuptools
+
+      # Build the Android APK using Buildozer
+      # The `buildozer-action` simplifies running the build command.
+      - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+        id: buildozer_build_step # Renamed ID for clarity
         with:
           command: buildozer android debug
-          buildozer_version: stable
+          buildozer_version: stable # Use the stable version of Buildozer
 
-name: Upload artifacts
+      # Upload the generated APK as a workflow artifact
+      # The `buildozer-action` outputs the filename of the generated package.
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+          name: tor-baap-apk
+          path: ${{ steps.buildozer_build_step.outputs.filename }} # Use the output filename from the build step
