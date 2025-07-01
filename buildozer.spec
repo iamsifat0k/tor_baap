@@ -4,10 +4,10 @@
 [app]
 
 # (str) Title of your application
-title = TOR BAAP
+title = TOR_BAAP
 
 # (str) Package name
-package.name = TOR BAAP 
+package.name = TOR_BAAP
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -38,9 +38,11 @@ version = 0.1
 # version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
 
-# (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,plyer
+# (list) Application requirements (UPDATED FOR PYTHON 3.9 & PYJNIUS)
+requirements = python3==3.9,kivy,plyer,pyjnius==1.4.2
+
+# (str) Specify the Python version for python-for-android (CRITICAL FIX FOR JNIUS)
+p4a.python_version = 3.9
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -106,8 +108,8 @@ android.permissions = android.permission.INTERNET, android.permission.VIBRATE, (
 # (int) Target Android API, should be as high as possible. (UNCOMMENTED and set to 33)
 android.api = 33
 
-# (int) Minimum API your APK / AAB will support.
-#android.minapi = 21 # Keep default, or adjust if you have specific older device support needs
+# (int) Minimum API your APK / AAB will support. (UNCOMMENTED for Android 5+ compatibility)
+android.minapi = 21 # Set to 21 for Android 5.0 Lollipop and above
 
 # (int) Android SDK version to use
 #android.sdk = 20
@@ -240,6 +242,9 @@ android.accept_sdk_license = True # Uncommented for smoother automated builds
 
 # (str) XML file to include as an intent filters in <activity> tag
 #android.manifest.intent_filters =
+
+# (list) Copy these files to src/main/res/xml/ (used for example with intent-filters)
+#android.res_xml = PATH_TO_FILE,
 
 # (str) launchMode to set for the main activity
 #android.manifest.launch_mode = standard
